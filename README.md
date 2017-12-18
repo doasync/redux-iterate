@@ -64,6 +64,8 @@ export const signIn = async function* (payload) {
 const params = getDataFromState(yield); // yield expression
 ```
 
+To invoke your action creator/generator directly wrap it into a dispatch call using `connect` from `react-redux` or `bindActionCreators` from `redux`.
+
 If you want to do something when your binded action is done, `return` some data from generator and get it with .then:
 
 ```javascript
