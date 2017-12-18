@@ -19,12 +19,21 @@ You can use (async) generators as action creators to yield actions. This middlew
 npm install --save redux-iterate
 ```
 
+Then, to enable Iterator Middleware, use applyMiddleware():
+
+import { createStore, applyMiddleware } from 'redux';
+import iterate from 'redux-iterate';
+import rootReducer from './reducers';
+
+// Note: this API requires redux@>=3.1.0
+const store = createStore(
+  rootReducer,
+  applyMiddleware(iterate)
+);
+
 ## Usage
 
-You can use generators (sync or async) as action creators:
-```javascript
-export const signIn = async function* (payload) { /* ... */ }
-```
+You can use generators (sync or async) as action creators.
 
 Yield action objects to dispatch them! Forget about wrapping each time with `dispatch`:
 
@@ -46,9 +55,11 @@ export const signIn = async function* (payload) {
 };
 ```
 
-`yield` always returns a new state. If you yield undefined, you just get current state.
+`yield` always returns a new state. If you yield `undefined`, you just get current state (nothing happens).
 
-If you want to do something when your action is done, `return` some data from generator and get it with .then:
+To invoke your action creator/generator directly wrap it into a dispatch call using `connect` from `react-redux` or `bindActionCreators` from `redux`.
+
+If you want to do something when your binded action is done, `return` some data from generator and get it with .then:
 
 ```javascript
 signIn().then(username => {
